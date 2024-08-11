@@ -38,6 +38,8 @@ face_encodings = []
 face_names = []
 process_this_frame = True
 
+video_capture.set(cv2.CAP_PROP_FOURCC, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'))
+
 while True:
     # Grab a single frame of video
     ret, frame = video_capture.read()
@@ -49,7 +51,10 @@ while True:
 
         # Convert the image from BGR color (which OpenCV uses) to RGB color (which face_recognition uses)
         rgb_small_frame = small_frame[:, :, ::-1]
-        
+
+        code = cv2.COLOR_BGR2RGB
+        rgb_small_frame = cv2.cvtColor(rgb_small_frame, code)
+
         # Find all the faces and face encodings in the current frame of video
         face_locations = face_recognition.face_locations(rgb_small_frame)
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
